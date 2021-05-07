@@ -38,7 +38,7 @@ fun Routing.todoApi(todoService: TodoService) {
                 call.respond(todos)
             }
             get("/todos/{id}") {
-                val id: String = call.parameters["id"] ?: return@get
+                val id = call.parameters["id"] ?: return@get
                 try {
                     val todos = todoService.getTodo(id.toInt())
                     call.respond(todos)
@@ -47,32 +47,20 @@ fun Routing.todoApi(todoService: TodoService) {
                 }
             }
             post("/todos") {
-                try {
-                    val todo: TodoItem = call.receive<TodoItem>()
-                    todoService.create(todo)
-                    call.respond(HttpStatusCode.Created)
-                } catch (e: Throwable) {
-                    call.respond(HttpStatusCode.NotFound)
-                }
+                val todo = call.receive<TodoItem>()
+                todoService.create(todo)
+                call.respond(HttpStatusCode.Created)
             }
             put("/todos/{id}") {
-                try {
-                    val id: String = call.parameters["id"] ?: throw IllegalArgumentException("Missing Id")
-                    val todo: TodoItem = call.receive<TodoItem>()
-                    todoService.update(id.toInt(), todo)
-                    call.respond(HttpStatusCode.NoContent)
-                } catch (e: Throwable) {
-                    call.respond(HttpStatusCode.NotFound)
-                }
+                val id = call.parameters["id"] ?: throw IllegalArgumentException("Missing id")
+                val todo = call.receive<TodoItem>()
+                todoService.update(id.toInt(), todo)
+                call.respond(HttpStatusCode.NoContent)
             }
             delete("/todos/{id}") {
-                try {
-                    val id: String = call.parameters["id"] ?: throw IllegalArgumentException("Missing Id")
-                    todoService.delete(id.toInt())
-                    call.respond(HttpStatusCode.NoContent)
-                } catch (e: Throwable) {
-                    call.respond(HttpStatusCode.NotFound)
-                }
+                val id = call.parameters["id"] ?: throw IllegalArgumentException("Missing id")
+                todoService.delete(id.toInt())
+                call.respond(HttpStatusCode.NoContent)
             }
         }
     }

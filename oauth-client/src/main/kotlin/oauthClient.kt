@@ -6,7 +6,6 @@ import com.beust.klaxon.Parser
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
-import io.ktor.application.*
 
 /**
  * Htpp client Authentication file
@@ -75,7 +74,7 @@ class OAuthClient : IOAuthClient {
                 val parser = Parser.default()
                 val json = parser.parse(StringBuilder(result.value)) as JsonObject
 
-                com.github.vitormbgoncalves.todolist.oauth.client.TokenResponse(
+                TokenResponse(
                     json["access_token"].toString(),
                     json["expires_in"].toString().toInt(),
                     json["token_type"].toString()

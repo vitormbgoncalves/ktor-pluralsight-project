@@ -1,9 +1,9 @@
 package com.github.vitormbgoncalves.dataaccess.service
 
-import com.beust.klaxon.Parser
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.github.vitormbgoncalves.todolist.oauth.client.IOAuthClient
 import com.github.vitormbgoncalves.todolist.shared.TodoItem
-import io.ktor.application.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
@@ -27,9 +27,9 @@ class TodoServiceAPICALL(val oauthClient: IOAuthClient) : TodoService {
 
     override suspend fun getAll(): List<TodoItem> {
         val token = oauthClient.getClientCredential(
-            "http://localhost:8180/auth/realms/Ktor/protocol/openid-connect/token",
+            "https://keycloak-development-instance.herokuapp.com/auth/realms/Ktor/protocol/openid-connect/token",
             "KtorApp",
-            "fe028175-f68b-4fe3-b572-4a24e1f0ad63",
+            "c2310b6c-daba-49f9-9947-9e36432e5a31",
             "ktoruser",
             "minhasenhasecreta",
             listOf("openid")
@@ -39,8 +39,8 @@ class TodoServiceAPICALL(val oauthClient: IOAuthClient) : TodoService {
             oauthClient.callApi(apiEndpoint, it.tokenType, it.token)
         }
         val items = res?.let {
-            val parser = Parser.default()
-            parser.parse(StringBuilder(it)) as List<TodoItem>
+            val mapper = jacksonObjectMapper()
+            mapper.readValue(it) as List<TodoItem>
         }
 
         return if (items != null) {
@@ -48,7 +48,6 @@ class TodoServiceAPICALL(val oauthClient: IOAuthClient) : TodoService {
         } else {
             listOf()
         }
-        println("Token is: $token")
     }
 
     override fun getTodo(id: Int): TodoItem {
@@ -68,8 +67,8 @@ class TodoServiceAPICALL(val oauthClient: IOAuthClient) : TodoService {
     }
 
     override fun loadUserData(userId: String): UserData {
-        return com.github.vitormbgoncalves.dataaccess.service.UserData("blue")
+        return UserData("blue")
     }
 }
 
-data class UserData(val backgraound: String)
+data class UserData(val background: String)

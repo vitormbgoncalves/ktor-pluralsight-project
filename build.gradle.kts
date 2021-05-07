@@ -1,15 +1,16 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val kotlin_version: String by project
 val logback_version: String by project
 val kluent_version: String by project
 val spek_version: String by project
 val mockk_version: String by project
 val koin_version: String by project
+val klaxon_version: String by project
 
 buildscript {
     repositories {
-        maven {
-            url = uri("https://plugins.gradle.org/m2/")
-        }
+        maven { url = uri("https://plugins.gradle.org/m2/") }
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32")
@@ -37,6 +38,7 @@ allprojects {
         mavenCentral()
         jcenter()
         maven { url = uri("https://kotlin.bintray.com/ktor") }
+        maven { url = uri("https://jitpack.io") }
     }
 
     dependencies {
@@ -56,6 +58,9 @@ allprojects {
                 includeEngines("spek2")
             }
         }
+        withType<KotlinCompile> {
+            kotlinOptions.jvmTarget = "1.8"
+        }
         test {
             finalizedBy(jacocoTestReport) // report is always generated after tests run
         }
@@ -73,6 +78,9 @@ project(":todolist-shared") {
 }
 
 project(":oauth-client") {
+    dependencies {
+        implementation(project(":todolist-shared"))
+    }
 }
 
 project(":todolist-restapi") {

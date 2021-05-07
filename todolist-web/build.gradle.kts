@@ -1,6 +1,7 @@
 val logback_version: String by project
 val ktor_version: String by project
 val kotlin_version: String by project
+val jackson_version: String by project
 
 plugins {
     application
@@ -22,6 +23,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-client-core:$ktor_version")
     implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-jackson:$ktor_version")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version")
     implementation("io.ktor:ktor-mustache:$ktor_version")
     implementation("io.ktor:ktor-auth:$ktor_version")
     implementation("io.ktor:ktor-auth-jwt:$ktor_version")

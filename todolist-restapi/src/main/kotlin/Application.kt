@@ -3,7 +3,7 @@ package com.github.vitormbgoncalves.todolist.restapi
 import com.auth0.jwk.JwkProviderBuilder
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.vitormbgoncalves.dataaccess.service.TodoService
-import com.github.vitormbgoncalves.dataaccess.service.TodoServiceimpl
+import com.github.vitormbgoncalves.dataaccess.service.TodoServiceDBCall
 import com.github.vitormbgoncalves.repository.TodoListRepository
 import com.github.vitormbgoncalves.repository.TodoListRepositorySQL
 import io.ktor.application.*
@@ -42,6 +42,7 @@ fun Application.module(testing: Boolean = false) {
     install(Koin) {
         modules(todoAppModule)
     }
+
     val todoService by inject<TodoService>()
     moduleWithDependencies(todoService)
 }
@@ -106,6 +107,6 @@ fun Application.moduleWithDependencies(todoService: TodoService) {
 }
 
 val todoAppModule = module {
-    single<TodoService> { TodoServiceimpl(get()) }
+    single<TodoService> { TodoServiceDBCall(get()) }
     single<TodoListRepository> { TodoListRepositorySQL() }
 }

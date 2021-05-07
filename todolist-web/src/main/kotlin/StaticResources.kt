@@ -15,7 +15,7 @@ import keycloakOAuth
 
 fun Routing.staticResources() {
     static {
-        staticRootFolder = File("assets")
+        staticRootFolder = File("todolist-web/assets")
         static("css") {
             files("css")
         }

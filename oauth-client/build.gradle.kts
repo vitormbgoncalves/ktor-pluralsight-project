@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlin_version: String by project
 val fuel_version: String by project
 val klaxon_version: String by project
 val arrow_version: String by project

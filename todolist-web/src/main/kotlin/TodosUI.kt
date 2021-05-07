@@ -41,17 +41,17 @@ suspend fun Routing.todos(todoservice: TodoService) {
             when(val userSession = call.sessions.get<UserSession>()) {
                 null -> {
                     val subject = getSubject()
-                    call.application.environment.log.info("Token is: ${subject}")
                     userData = todoservice.loadUserData(subject)
-                    call.sessions.set(UserSession(id = subject, name = "John", backgroundColor = userData.backgraound))
+                    call.sessions.set(UserSession(id = subject, name = "John", backgroundColor = userData.background))
+                    call.application.environment.log.info("JWT Token is: ${call.authentication.principal<OAuthAccessTokenResponse.OAuth2>()?.accessToken}")
                 }
                 else -> {
-                    userData = UserData(backgraound = userSession.backgroundColor)
+                    userData = UserData(background = "green")
                 }
             }
 
             val todos = todoservice.getAll()
-            val todoVm = TodoVM(todos, userData.backgraound)
+            val todoVm = TodoVM(todos, userData.background)
 
 
             call.respond(
