@@ -2,9 +2,11 @@
 
 ## About
 
-This project contains the codes created during the Pluralsight course [Building Web Applications in Kotlin Using Ktor](https://www.pluralsight.com/courses/building-web-applications-kotlin-ktor) presented by kevin Jones.  
+This project contains the codes created during the Pluralsight course [Building Web Applications in Kotlin Using Ktor](https://www.pluralsight.com/courses/building-web-applications-kotlin-ktor) presented by kevin Jones. 
 
-Learning objective this course: try creating REST API using Ktor framework for Kotlin.
+## Learning objective this course
+
+Try creating REST API using Ktor framework for Kotlin.
 
 ## Tech-stack
 
